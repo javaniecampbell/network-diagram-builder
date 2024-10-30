@@ -100,6 +100,50 @@ const initialNodes = [
       padding: 10,
     },
   },
+  {
+    id: '5',
+    type: 'customNode',
+    data: { label: 'Route 53 (Infrastructure Node)', details: 'Highly available and scalable cloud DNS service.' },
+    position: { x: 100, y: 300 },
+    style: {
+      backgroundColor: '#e3f2fd',
+      border: '1px solid #90caf9',
+      padding: 10,
+    },
+  },
+  {
+    id: '6',
+    type: 'customNode',
+    data: { label: 'Elastic Load Balancer (Infrastructure Node)', details: 'Automatically distributes incoming application traffic.' },
+    position: { x: 400, y: 300 },
+    style: {
+      backgroundColor: '#e3f2fd',
+      border: '1px solid #90caf9',
+      padding: 10,
+    },
+  },
+  {
+    id: '7',
+    type: 'customNode',
+    data: { label: 'Web Application (Deployment Node)', details: 'Allows employees to view and manage information regarding the veterinarians, clients, and their pets.' },
+    position: { x: 700, y: 300 },
+    style: {
+      backgroundColor: '#fff3e0',
+      border: '1px solid #ffb74d',
+      padding: 10,
+    },
+  },
+  {
+    id: '8',
+    type: 'customNode',
+    data: { label: 'Database (Deployment Node)', details: 'Stores information regarding the veterinarians, clients, and their pets.' },
+    position: { x: 1000, y: 300 },
+    style: {
+      backgroundColor: '#e8f5e9',
+      border: '1px solid #81c784',
+      padding: 10,
+    },
+  },
 ];
 
 // Initial edges with labels
@@ -107,12 +151,31 @@ const initialEdges = [
   { id: 'e1-2', source: '1', target: '2', label: 'Forwards requests to' },
   { id: 'e2-3', source: '2', target: '3', label: 'Forwards requests to' },
   { id: 'e3-4', source: '3', target: '4', label: 'Reads from and writes to' },
+  { id: 'e5-6', source: '5', target: '6', label: 'Forwards requests to' },
+  { id: 'e6-7', source: '6', target: '7', label: 'Forwards requests to' },
+  { id: 'e7-8', source: '7', target: '8', label: 'Reads from and writes to' },
 ];
+
+const CustomNode = ({ data }) => {
+  return (
+    <div className="custom-node" style={{ padding: 10, border: '1px solid #333', backgroundColor: '#f9f9f9', borderRadius: 5 }}>
+      <h4>{data.label}</h4>
+      <p>{data.details}</p>
+    </div>
+  );
+};
+
+const nodeTypes = {
+  customNode: CustomNode,
+};
 
 const NetworkDiagram = ({ miniMapHeight = 100, miniMapWidth = 150 }) => {
   const [nodes, setNodes] = useState(initialNodes);
   const [edges, setEdges] = useState(initialEdges);
   const [isEdgeFormOpen, setIsEdgeFormOpen] = useState(false);
+  const [newNodeLabel, setNewNodeLabel] = useState('');
+  const [newNodeDetails, setNewNodeDetails] = useState('');
+  
 
   const onNodesChange = useCallback((changes) => {
     setNodes((nds) => nds.map((node) => ({ ...node, ...changes })));
@@ -140,9 +203,42 @@ const NetworkDiagram = ({ miniMapHeight = 100, miniMapWidth = 150 }) => {
       });
   }, []);
 
+  const addNode = () => {
+    const id = (nodes.length + 1).toString();
+    const newNode = {
+      id,
+      type: 'customNode',
+      data: { label: newNodeLabel, details: newNodeDetails },
+      position: { x: Math.random() * 400, y: Math.random() * 400 },
+      style: {
+        backgroundColor: '#e3f2fd',
+        border: '1px solid #90caf9',
+        padding: 10,
+      },
+    };
+    setNodes((nds) => [...nds, newNode]);
+    setNewNodeLabel('');
+    setNewNodeDetails('');
+  };
+
   return (
     <div id="network-diagram" style={{ height: '100vh' }}>
       <ReactFlowProvider>
+      <div className="node-form">
+          <input
+            type="text"
+            placeholder="Node Label"
+            value={newNodeLabel}
+            onChange={(e) => setNewNodeLabel(e.target.value)}
+          />
+          <input
+            type="text"
+            placeholder="Node Details"
+            value={newNodeDetails}
+            onChange={(e) => setNewNodeDetails(e.target.value)}
+          />
+          <button onClick={addNode}>Add Node</button>
+        </div>
         <ReactFlow
           nodes={nodes}
           edges={edges}
@@ -150,6 +246,7 @@ const NetworkDiagram = ({ miniMapHeight = 100, miniMapWidth = 150 }) => {
           onEdgesChange={onEdgesChange}
           onConnect={onConnect}
           fitView
+          nodeTypes={nodeTypes}
         >
          <MiniMap nodeColor={(node) => {
             switch (node.type) {
