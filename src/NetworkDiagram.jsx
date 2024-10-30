@@ -17,6 +17,43 @@ import * as htmlToImage from 'html-to-image'; // Utility to export diagram as an
 import { NodeForm } from './NodeForm';
 import { EdgeForm } from './EdgeForm';
 
+
+const EdgeFormModal = ({ isOpen, onClose, onAddEdge }) => {
+  const [source, setSource] = useState('');
+  const [target, setTarget] = useState('');
+  const [label, setLabel] = useState('');
+
+  if (!isOpen) return null;
+
+  return (
+    <div className="modal-overlay">
+      <div className="modal">
+        <h2>Add Edge</h2>
+        <input
+          type="text"
+          placeholder="Source Node ID"
+          value={source}
+          onChange={(e) => setSource(e.target.value)}
+        />
+        <input
+          type="text"
+          placeholder="Target Node ID"
+          value={target}
+          onChange={(e) => setTarget(e.target.value)}
+        />
+        <input
+          type="text"
+          placeholder="Edge Label"
+          value={label}
+          onChange={(e) => setLabel(e.target.value)}
+        />
+        <button onClick={() => { onAddEdge({ source, target, label }); onClose(); }}>Add Edge</button>
+        <button onClick={onClose}>Cancel</button>
+      </div>
+    </div>
+  );
+};
+
 // Initial nodes with defined styles
 const initialNodes = [
   {
@@ -54,7 +91,7 @@ const initialNodes = [
   },
   {
     id: '4',
-    type: 'default',
+    type: 'output',
     data: { label: 'Database (Deployment Node)' },
     position: { x: 1000, y: 100 },
     style: {
@@ -72,9 +109,10 @@ const initialEdges = [
   { id: 'e3-4', source: '3', target: '4', label: 'Reads from and writes to' },
 ];
 
-const NetworkDiagram = () => {
+const NetworkDiagram = ({ miniMapHeight = 100, miniMapWidth = 150 }) => {
   const [nodes, setNodes] = useState(initialNodes);
   const [edges, setEdges] = useState(initialEdges);
+  const [isEdgeFormOpen, setIsEdgeFormOpen] = useState(false);
 
   const onNodesChange = useCallback((changes) => {
     setNodes((nds) => nds.map((node) => ({ ...node, ...changes })));
@@ -113,12 +151,30 @@ const NetworkDiagram = () => {
           onConnect={onConnect}
           fitView
         >
-          <MiniMap />
-          <Controls />
+         <MiniMap nodeColor={(node) => {
+            switch (node.type) {
+              case 'input':
+                return '#0041d0';
+              case 'default':
+                return '#1a192b';
+              case 'output':
+                return '#ff0072';
+              default:
+                return '#eee';
+            }
+          }} height={miniMapHeight} width={miniMapWidth} />
+          <Controls style={{ top: 'auto', bottom: 20, right: 20, width: '10px' }} />
           <Background color="#aaa" gap={16} />
         </ReactFlow>
-        <EdgeForm onAddEdge={(newEdge) => setEdges((eds) => [...eds, newEdge])} />
+        {/* <EdgeForm onAddEdge={(newEdge) => setEdges((eds) => [...eds, newEdge])} /> */}
+        <button onClick={() => setIsEdgeFormOpen(true)}>Add Edge</button>
+          
         <button onClick={handleExport}>Export Diagram</button>
+        <EdgeFormModal
+              isOpen={isEdgeFormOpen}
+              onClose={() => setIsEdgeFormOpen(false)}
+              onAddEdge={(edge) => console.log('Edge added:', edge)}
+            />
       </ReactFlowProvider>
     </div>
   );
