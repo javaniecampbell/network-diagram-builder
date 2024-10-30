@@ -4,6 +4,17 @@ import viteLogo from '/vite.svg'
 import './index.css';
 import './App.css'
 
+const NavigationBar = ({ navigateToSplash, navigateToLanding, navigateToBuilder }) => {
+  return (
+    <nav className="navigation-bar">
+      <button onClick={navigateToSplash}>Home</button>
+      <button onClick={navigateToLanding}>Features</button>
+      <button onClick={navigateToBuilder}>Diagram Builder</button>
+    </nav>
+  );
+};
+
+
 // Main entry file for a Next.js or Vite app that uses the NetworkDiagram component
 // import ReactDOM from 'react-dom';
 import NetworkDiagram from './NetworkDiagram'; // Import the NetworkDiagram component
@@ -44,9 +55,13 @@ const LandingPage = ({ navigateToBuilder }) => {
   );
 };
 
- 
+
 function App() {
   const [currentPage, setCurrentPage] = useState('splash');
+
+  const navigateToSplash = () => {
+    setCurrentPage('splash');
+  };
 
   const navigateToLanding = () => {
     setCurrentPage('landing');
@@ -58,11 +73,21 @@ function App() {
 
   return (
     <>
-        <div className="app-container">
-      {currentPage === 'splash' && <SplashPage navigateToLanding={navigateToLanding} />}
-      {currentPage === 'landing' && <LandingPage navigateToBuilder={navigateToBuilder} />}
-      {currentPage === 'builder' && <NetworkDiagram />}
-    </div>
+      <div className="app-container">
+        <NavigationBar
+          navigateToSplash={navigateToSplash}
+          navigateToLanding={navigateToLanding}
+          navigateToBuilder={navigateToBuilder}
+        />
+        {currentPage === 'splash' && <SplashPage navigateToLanding={navigateToLanding} />}
+        {currentPage === 'landing' && <LandingPage navigateToBuilder={navigateToBuilder} />}
+        {currentPage === 'builder' && (
+          <div className="network-diagram-container">
+            <NetworkDiagram miniMapHeight={100} miniMapWidth={150} />
+            
+          </div>
+        )}
+      </div>
     </>
   )
 }
