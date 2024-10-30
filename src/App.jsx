@@ -1,30 +1,30 @@
-import React,{ useState } from 'react'
+import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 
 // Main entry file for a Next.js or Vite app that uses the NetworkDiagram component
-import ReactDOM from 'react-dom';
-// import NetworkDiagram from './NetworkDiagram'; // Import the NetworkDiagram component
+// import ReactDOM from 'react-dom';
+import NetworkDiagram from './NetworkDiagram'; // Import the NetworkDiagram component
 import './index.css';
 
-const SplashPage = () => {
+const SplashPage = ({ navigateToLanding }) => {
   return (
     <div className="splash-container">
       <h1>Welcome to Network Diagram Builder</h1>
       <p>Easily create and visualize your network infrastructure.</p>
-      <button onClick={() => window.location.href = '/app'}>Get Started</button>
+      <button onClick={navigateToLanding}>Get Started</button>
     </div>
   );
 };
 
-const LandingPage = () => {
+const LandingPage = ({ navigateToBuilder }) => {
   return (
     <div className="landing-container">
       <header className="landing-header">
         <h1>Network Diagram Builder</h1>
         <p>Design, visualize, and export your network diagrams with ease.</p>
-        <button onClick={() => window.location.href = '/app'}>Start Building</button>
+        <button onClick={navigateToBuilder}>Start Building</button>
       </header>
       <section className="features">
         <div className="feature">
@@ -46,12 +46,22 @@ const LandingPage = () => {
 
  
 function App() {
-  const isSplash = window.location.pathname === '/';
+  const [currentPage, setCurrentPage] = useState('splash');
+
+  const navigateToLanding = () => {
+    setCurrentPage('landing');
+  };
+
+  const navigateToBuilder = () => {
+    setCurrentPage('builder');
+  };
 
   return (
     <>
-      <div className="app-container">
-      {isSplash ? <SplashPage /> : <LandingPage />}
+        <div className="app-container">
+      {currentPage === 'splash' && <SplashPage navigateToLanding={navigateToLanding} />}
+      {currentPage === 'landing' && <LandingPage navigateToBuilder={navigateToBuilder} />}
+      {currentPage === 'builder' && <NetworkDiagram />}
     </div>
     </>
   )
