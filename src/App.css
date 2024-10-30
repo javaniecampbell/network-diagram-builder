@@ -1,42 +1,167 @@
-/* #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-}
+ /* Styles for the application */
+/* index.css */
+ .app-container {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   padding: 20px;
+   font-family: Arial, sans-serif;
+   height: 100vh;
+   width: 100%;
+   box-sizing: border-box;
+ }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
+ .splash-container {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+   height: 100vh;
+   text-align: center;
+   background: linear-gradient(to bottom, #6dd5ed, #2193b0);
+   color: #fff;
+   width: 100%;
+   box-sizing: border-box;
+ }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
+ .splash-container h1 {
+   font-size: 3rem;
+   margin-bottom: 20px;
+ }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
+ .splash-container p {
+   font-size: 1.5rem;
+   margin-bottom: 30px;
+ }
 
-.card {
-  padding: 2em;
-}
+ .splash-container button {
+   padding: 15px 30px;
+   font-size: 1.2rem;
+   color: #2193b0;
+   background-color: #fff;
+   border: none;
+   border-radius: 5px;
+   cursor: pointer;
+   transition: background-color 0.3s ease;
+ }
 
-.read-the-docs {
-  color: #888;
-} */
+ .splash-container button:hover {
+   background-color: #f0f0f0;
+ }
+
+ .landing-container {
+   width: 100%;
+   padding: 40px;
+   text-align: center;
+ }
+
+ .landing-header {
+   margin-bottom: 40px;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   gap: 10px;
+ }
+
+ .landing-header h1 {
+   font-size: 2.5rem;
+   margin-bottom: 20px;
+ }
+
+ .landing-header p {
+   font-size: 1.2rem;
+   margin-bottom: 20px;
+ }
+
+ .features {
+   display: flex;
+   justify-content: center;
+   gap: 40px;
+   flex-wrap: wrap;
+   margin-top: 40px;
+ }
+
+ .feature {
+   max-width: 300px;
+   margin: 20px;
+   padding: 20px;
+   border-radius: 10px;
+   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+   transition: box-shadow 0.3s ease;
+   background-color: #fff;
+   text-align: left;
+ }
+
+ .feature:hover {
+   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+ }
+
+ h1 {
+   color: #333;
+ }
+
+ button {
+   padding: 10px 20px;
+   font-size: 1rem;
+   color: #fff;
+   background-color: #2193b0;
+   border: none;
+   border-radius: 5px;
+   cursor: pointer;
+   transition: background-color 0.3s ease;
+ }
+
+ button:hover {
+   background-color: #6dd5ed;
+ }
+
+ .edge-form {
+   display: flex;
+   gap: 10px;
+   margin-top: 20px;
+   padding: 10px;
+   border-radius: 5px;
+   background-color: #f9f9f9;
+   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+   width: 100%;
+   box-sizing: border-box;
+ }
+
+ .edge-form input {
+   flex: 1;
+   padding: 10px;
+   border: 1px solid #ccc;
+   border-radius: 4px;
+ }
+
+ .edge-form button {
+   padding: 10px 20px;
+   background-color: #2193b0;
+   color: #fff;
+   border: none;
+   border-radius: 5px;
+   cursor: pointer;
+   transition: background-color 0.3s ease;
+ }
+
+ .edge-form button:hover {
+   background-color: #6dd5ed;
+ }
+
+ .react-flow__renderer {
+   height: 80vh;
+   width: 100%;
+   margin-top: 20px;
+ }
+
+ .network-diagram-container {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+   height: 100vh;
+   width: 100%;
+   box-sizing: border-box;
+   background-color: #f0f0f0;
+   padding: 20px;
+ }
